@@ -367,7 +367,7 @@ TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, async () => {
         // Schedule notification 1 day before
         const reminderNotificationTime = new Date(classTime);
         reminderNotificationTime.setDate(reminderNotificationTime.getDate() - 1);
-        reminderNotificationTime.setHours(9, 0, 0, 0); // Reminder at 9 AM
+        reminderNotificationTime.setHours(21, 0, 0, 0); // Reminder at 9 PM
 
         if (reminderNotificationTime > now) {
           await Notifications.scheduleNotificationAsync({
@@ -412,25 +412,7 @@ const App = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    const getPermissions = async () => {
-      if (Platform.OS === 'android') {
-        await Notifications.setNotificationChannelAsync('default', {
-          name: 'Default',
-          importance: Notifications.AndroidImportance.MAX,
-          vibrationPattern: [0, 250, 250, 250],
-          lightColor: '#FF231F7C',
-        });
-      }
-
-      const { status } = await Notifications.requestPermissionsAsync();
-      if (status !== 'granted') {
-        console.log('Notification permissions not granted');
-      }
-    };
-
     const scheduleNotifications = async () => {
-      await getPermissions();
-
       const now = new Date();
       const day = now.toLocaleDateString('en-US', { weekday: 'long' });
 
@@ -448,7 +430,7 @@ const App = () => {
           const classTime = new Date(now);
           classTime.setHours(hour, minute, 0, 0);
           return { ...classInfo, time: classTime };
-        }).sort((a, b) => a.time - b.time).slice(0, 3);
+        }).sort((a, b) => a.time - b.time);
 
         setUpcomingClasses(upcoming);
       } else {
@@ -481,7 +463,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{message || 'Upcoming Classes'}</Text>
+      <Text style={styles.title}>{message || 'Today Upcoming Classes'}</Text>
       <FlatList
         data={upcomingClasses}
         keyExtractor={(item) => `${item.Period}-${item.Time}`}
@@ -508,16 +490,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   title: {
-    fontSize: 24,
+    textAlign: 'center',
+    fontSize: 32,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 30,
   },
   classContainer: {
     marginBottom: 15,
     padding: 10,
     borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 5,
+    borderWidth: 2,
+    borderRadius: 10,
   },
   classTitle: {
     fontSize: 18,

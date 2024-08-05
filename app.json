@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "RemindMe_V1",
+    "name": "Remind Me",
     "slug": "RemindMe_V1",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,10 +18,13 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.biplabroy.RemindMe_V1"
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
+    "extra": {
+      "eas": {
+        "projectId": "e765e138-86c1-4621-8aaf-c27d8252dad7"
+      }
     }
   }
 }
